@@ -19,8 +19,13 @@ package com.edurt.repository;
 
 import com.edurt.bean.ArticleBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * ArticleRepository <br/>
@@ -61,6 +66,68 @@ public class ArticleRepository {
     public int delete(Integer id) {
         String sql = "DELETE FROM article WHERE id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    /**
+     * 批量添加
+     */
+    public int batchSave(final List<ArticleBean> beans) {
+        String sql = "INSERT INTO article(title, description) VALUES (?, ?)";
+        // spring jdbc 帮我们生成批量插入数据的sql语句, 我们也直接可以使用批量插入的sql语句进行数据的批量插入操作
+        return jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            // 通过setValues进行生成设置的预定义sql语句
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                ArticleBean bean = beans.get(i);
+                preparedStatement.setString(1, bean.getTitle());
+                preparedStatement.setString(2, bean.getDescription());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return beans.size();
+            }
+
+        }).length;
+    }
+
+    /**
+     * 批量修改
+     */
+    public int batchModfiy(final List<ArticleBean> beans) {
+        String sql = "UPDATE article SET title=?, description = ? WHERE id = ?";
+        return jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                ArticleBean bean = beans.get(i);
+                preparedStatement.setString(1, bean.getTitle());
+                preparedStatement.setString(2, bean.getDescription());
+                preparedStatement.setInt(3, bean.getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return beans.size();
+            }
+        }).length;
+    }
+
+    public int batchDelete(final List<Integer> ids) {
+        String sql = "DELETE FROM article WHERE id = ?";
+        return jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                preparedStatement.setInt(1, ids.get(i));
+            }
+
+            @Override
+            public int getBatchSize() {
+                return ids.size();
+            }
+        }).length;
     }
 
 }

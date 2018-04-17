@@ -22,6 +22,8 @@ import com.edurt.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * ArticleController <br/>
  * 描述 : ArticleController <br/>
@@ -50,6 +52,21 @@ public class ArticleController {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
     int delete(@PathVariable Integer id) {
         return service.delete(id);
+    }
+
+    @RequestMapping(value = "/batch/save", method = RequestMethod.POST)
+    int batchSave(@RequestBody List<ArticleBean> beans) {
+        return service.batchSave(beans);
+    }
+
+    @RequestMapping(value = "/batch/modfiy", method = RequestMethod.PUT)
+    int batchModfiy(@RequestBody List<ArticleBean> beans) {
+        return service.batchModfiy(beans);
+    }
+
+    @RequestMapping(value = "/batch/delete", method = RequestMethod.DELETE)
+    int batchDelete(@RequestBody List<Integer> ids) {
+        return service.batchDelete(ids);
     }
 
 }

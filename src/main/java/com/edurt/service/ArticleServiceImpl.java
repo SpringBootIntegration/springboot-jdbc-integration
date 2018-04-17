@@ -22,6 +22,8 @@ import com.edurt.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * ArticleServiceImpl <br/>
  * 描述 : ArticleServiceImpl <br/>
@@ -49,6 +51,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int delete(Integer id) {
         return repository.delete(id);
+    }
+
+    @Override
+    public int batchSave(List<ArticleBean> beans) {
+        return repository.batchSave(beans);
+    }
+
+    @Override
+    public int batchModfiy(List<ArticleBean> beans) {
+        return repository.batchModfiy(beans);
+    }
+
+    @Override
+    public int batchDelete(List<Integer> ids) {
+        return repository.batchDelete(ids);
     }
 
 }

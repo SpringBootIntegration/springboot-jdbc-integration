@@ -19,6 +19,8 @@ package com.edurt.service;
 
 import com.edurt.bean.ArticleBean;
 
+import java.util.List;
+
 /**
  * ArticleService <br/>
  * 描述 : ArticleService <br/>
@@ -34,5 +36,11 @@ public interface ArticleService {
     int modfiy(ArticleBean bean);
 
     int delete(Integer id);
+
+    int batchSave(final List<ArticleBean> beans);
+
+    int batchModfiy(final List<ArticleBean> beans);
+
+    int batchDelete(final List<Integer> ids);
 
 }
