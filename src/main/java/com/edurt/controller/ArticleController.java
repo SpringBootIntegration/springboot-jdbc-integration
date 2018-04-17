@@ -20,10 +20,7 @@ package com.edurt.controller;
 import com.edurt.bean.ArticleBean;
 import com.edurt.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ArticleController <br/>
@@ -43,6 +40,16 @@ public class ArticleController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     int create(@RequestBody ArticleBean bean) {
         return service.create(bean);
+    }
+
+    @RequestMapping(value = "modfiy", method = RequestMethod.PUT)
+    int modfiy(@RequestBody ArticleBean bean) {
+        return service.modfiy(bean);
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    int delete(@PathVariable Integer id) {
+        return service.delete(id);
     }
 
 }

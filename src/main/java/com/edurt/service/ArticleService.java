@@ -31,4 +31,8 @@ public interface ArticleService {
 
     int create(ArticleBean bean);
 
+    int modfiy(ArticleBean bean);
+
+    int delete(Integer id);
+
 }

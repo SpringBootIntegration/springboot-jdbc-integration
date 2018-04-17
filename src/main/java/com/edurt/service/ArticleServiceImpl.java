@@ -41,4 +41,14 @@ public class ArticleServiceImpl implements ArticleService {
         return repository.create(bean);
     }
 
+    @Override
+    public int modfiy(ArticleBean bean) {
+        return repository.modfiy(bean);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return repository.delete(id);
+    }
+
 }

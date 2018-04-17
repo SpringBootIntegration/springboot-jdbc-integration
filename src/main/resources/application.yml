@@ -3,7 +3,7 @@ spring:
     # 数据库驱动
     driver-class-name: com.mysql.jdbc.Driver
     # 数据库连接地址
-    url: jdbc:mysql://localhost:3306/test
+    url: jdbc:mysql://localhost:3306/springboot-jdbc-integration
     # 数据库连接用户名
     username: root
     # 数据库连接用户密码

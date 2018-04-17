@@ -47,4 +47,20 @@ public class ArticleRepository {
         return jdbcTemplate.update(sql, bean.getTitle(), bean.getDescription());
     }
 
+    /**
+     * 修改文章
+     *
+     * @param bean 需要修改的文章信息
+     * @return 受影响的行数
+     */
+    public int modfiy(ArticleBean bean) {
+        String sql = "UPDATE article SET title=?, description = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, bean.getTitle(), bean.getDescription(), bean.getId());
+    }
+
+    public int delete(Integer id) {
+        String sql = "DELETE FROM article WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
 }
