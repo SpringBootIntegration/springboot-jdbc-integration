@@ -43,4 +43,8 @@ public interface ArticleService {
 
     int batchDelete(final List<Integer> ids);
 
+    List<ArticleBean> findAll();
+
+    ArticleBean findOne(Integer id);
+
 }

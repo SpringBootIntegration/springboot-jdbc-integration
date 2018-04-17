@@ -21,9 +21,11 @@ import com.edurt.bean.ArticleBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -128,6 +130,43 @@ public class ArticleRepository {
                 return ids.size();
             }
         }).length;
+    }
+
+    /**
+     * 查询所有数据
+     */
+    public List<ArticleBean> findAll() {
+        String sql = "SELECT id, title, description FROM article";
+        return jdbcTemplate.query(sql, new RowMapper<ArticleBean>() {
+            // 将数据库查询到的数据封装成java实体类
+            @Override
+            public ArticleBean mapRow(ResultSet resultSet, int i) throws SQLException {
+                ArticleBean bean = new ArticleBean();
+                bean.setId(resultSet.getInt("id"));
+                bean.setTitle(resultSet.getString("title"));
+                // 如果是在查询sql中做了字段别名的操作, 那么我们在set阶段需要填充的是别名后的数据
+                bean.setDescription(resultSet.getString("description"));
+                return bean;
+            }
+        });
+    }
+
+    /**
+     * 查询单条数据
+     */
+    public ArticleBean findOne(Integer id) {
+        String sql = "SELECT id, title, description FROM article WHERE id = ?";
+        // 第一个参数传递sql, 第二个参数传递预定义SQL需要的数据值数组, 第三个参数传递封装的实体类过程
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<ArticleBean>() {
+            @Override
+            public ArticleBean mapRow(ResultSet resultSet, int i) throws SQLException {
+                ArticleBean bean = new ArticleBean();
+                bean.setId(resultSet.getInt("id"));
+                bean.setTitle(resultSet.getString("title"));
+                bean.setDescription(resultSet.getString("description"));
+                return bean;
+            }
+        });
     }
 
 }

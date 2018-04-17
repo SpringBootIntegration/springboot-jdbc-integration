@@ -68,4 +68,14 @@ public class ArticleServiceImpl implements ArticleService {
         return repository.batchDelete(ids);
     }
 
+    @Override
+    public List<ArticleBean> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public ArticleBean findOne(Integer id) {
+        return repository.findOne(id);
+    }
+
 }

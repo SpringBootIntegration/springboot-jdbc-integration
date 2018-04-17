@@ -69,4 +69,14 @@ public class ArticleController {
         return service.batchDelete(ids);
     }
 
+    @RequestMapping(value = "all", method = RequestMethod.GET)
+    List<ArticleBean> all() {
+        return service.findAll();
+    }
+
+    @RequestMapping(value = "info/{id}", method = RequestMethod.GET)
+    ArticleBean one(@PathVariable Integer id) {
+        return service.findOne(id);
+    }
+
 }
