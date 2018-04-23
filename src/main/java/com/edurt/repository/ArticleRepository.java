@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -59,6 +60,7 @@ public class ArticleRepository {
      * @param bean 需要修改的文章信息
      * @return 受影响的行数
      */
+    @Transactional
     public int modfiy(ArticleBean bean) {
         String sql = "UPDATE article SET title=?, description = ? WHERE id = ?";
         return jdbcTemplate.update(sql, bean.getTitle(), bean.getDescription(), bean.getId());

@@ -18,6 +18,7 @@
 package com.edurt.controller;
 
 import com.edurt.bean.ArticleBean;
+import com.edurt.repository.SecondArticleRepository;
 import com.edurt.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,13 @@ public class ArticleController {
     @Autowired
     private ArticleService service;
 
+    @Autowired
+    private SecondArticleRepository repository;
+
     @RequestMapping(value = "create", method = RequestMethod.POST)
     int create(@RequestBody ArticleBean bean) {
+        // 创建第二数据源数据插入操作
+        repository.create(bean);
         return service.create(bean);
     }
 
